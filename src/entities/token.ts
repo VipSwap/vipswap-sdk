@@ -82,6 +82,7 @@ export const WETH = {
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'),
   [ChainId.BSCNET]: new Token(ChainId.BSCNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'Wrapped BNB'),
   [ChainId.BSCMAINNET]: new Token(ChainId.BSCMAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'Wrapped BNB'),
-  [ChainId.OKTTEST]: new Token(ChainId.OKTTEST, '0x8f8526dbfd6e38e3d8307702ca8469bae6c56c15', 18, 'WOKT', 'Wrapped OKT')
+  [ChainId.OKTTEST]: new Token(ChainId.OKTTEST, '0x8f8526dbfd6e38e3d8307702ca8469bae6c56c15', 18, 'WOKT', 'Wrapped OKT'),
+  [ChainId.INTTEST]: new Token(ChainId.INTTEST, '0x9942945a2617c2e771829e64db9805952924d43f', 18, 'WINT', 'Wrapped INT'),
 
 }
