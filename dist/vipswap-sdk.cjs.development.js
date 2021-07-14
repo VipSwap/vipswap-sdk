@@ -389,7 +389,11 @@ function Currency(decimals, symbol, name) {
  */
 
 Currency.ETHER = /*#__PURE__*/new Currency(18, 'BNB', 'Ether');
+Currency.OKT = /*#__PURE__*/new Currency(18, 'OKT', 'okt');
+Currency.INT = /*#__PURE__*/new Currency(18, 'INT', 'int');
 var ETHER = Currency.ETHER;
+var OKT = Currency.OKT;
+var INT = Currency.INT;
 
 var _WETH;
 /**
@@ -1593,9 +1597,11 @@ exports.FACTORY_ADDRESS = FACTORY_ADDRESS;
 exports.Fetcher = Fetcher;
 exports.Fraction = Fraction;
 exports.INIT_CODE_HASH = INIT_CODE_HASH;
+exports.INT = INT;
 exports.InsufficientInputAmountError = InsufficientInputAmountError;
 exports.InsufficientReservesError = InsufficientReservesError;
 exports.MINIMUM_LIQUIDITY = MINIMUM_LIQUIDITY;
+exports.OKT = OKT;
 exports.Pair = Pair;
 exports.Percent = Percent;
 exports.Price = Price;
