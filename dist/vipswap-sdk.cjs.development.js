@@ -1107,13 +1107,13 @@ function tradeComparator(a, b) {
 
 function wrappedAmount(currencyAmount, chainId) {
   if (currencyAmount instanceof TokenAmount) return currencyAmount;
-  if (currencyAmount.currency === ETHER) return new TokenAmount(WETH[chainId], currencyAmount.raw);
+  if (currencyAmount.currency === ETHER || currencyAmount.currency === OKT || currencyAmount.currency === INT) return new TokenAmount(WETH[chainId], currencyAmount.raw);
     invariant(false, 'CURRENCY')  ;
 }
 
 function wrappedCurrency(currency, chainId) {
   if (currency instanceof Token) return currency;
-  if (currency === ETHER) return WETH[chainId];
+  if (currency === ETHER || currency === OKT || currency === INT) return WETH[chainId];
     invariant(false, 'CURRENCY')  ;
 }
 /**
@@ -1159,8 +1159,8 @@ var Trade = /*#__PURE__*/function () {
 
     this.route = route;
     this.tradeType = tradeType;
-    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
-    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
+    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER || route.input === INT || route.input === OKT ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
+    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER || route.output === OKT || route.output === INT ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
     this.executionPrice = new Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.raw, this.outputAmount.raw);
     this.nextMidPrice = Price.fromRoute(new Route(nextPairs, route.input));
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
