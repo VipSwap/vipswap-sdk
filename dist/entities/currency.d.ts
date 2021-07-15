@@ -24,4 +24,7 @@ export declare class Currency {
 declare const ETHER: Currency;
 declare const OKT: Currency;
 declare const INT: Currency;
-export { ETHER, OKT, INT };
+declare const CurrencyArr: {
+    [index: number]: any;
+};
+export { ETHER, OKT, INT, CurrencyArr };

@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 
-import { SolidityType } from '../constants'
+import {ChainId, SolidityType} from '../constants'
 import { validateSolidityTypeInstance } from '../utils'
 
 /**
@@ -38,4 +38,10 @@ export class Currency {
 const ETHER = Currency.ETHER
 const OKT = Currency.OKT
 const INT = Currency.INT
-export { ETHER, OKT, INT }
+const CurrencyArr:{[index:number]:any} = {
+  [ChainId.BSCNET]: ETHER,
+  [ChainId.BSCMAINNET]: ETHER,
+  [ChainId.OKTTEST]: OKT,
+  [ChainId.INTTEST]: INT,
+}
+export { ETHER, OKT, INT,CurrencyArr }

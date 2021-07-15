@@ -180,13 +180,13 @@ export class Trade {
       tradeType === TradeType.EXACT_INPUT
         ? amount
         : (route.input === ETHER||route.input === INT||route.input === OKT)
-        ? CurrencyAmount.ether(amounts[0].raw)
+        ? CurrencyAmount.etherById(amounts[0].raw,route.chainId)
         : amounts[0]
     this.outputAmount =
       tradeType === TradeType.EXACT_OUTPUT
         ? amount
         : (route.output === ETHER||route.output === OKT||route.output === INT)
-        ? CurrencyAmount.ether(amounts[amounts.length - 1].raw)
+        ? CurrencyAmount.etherById(amounts[amounts.length - 1].raw,route.chainId)
         : amounts[amounts.length - 1]
     this.executionPrice = new Price(
       this.inputAmount.currency,
@@ -213,7 +213,8 @@ export class Trade {
         .multiply(this.outputAmount.raw).quotient
       return this.outputAmount instanceof TokenAmount
         ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut)
-        : CurrencyAmount.ether(slippageAdjustedAmountOut)
+        // : CurrencyAmount.ether(slippageAdjustedAmountOut)
+        : new CurrencyAmount(this.outputAmount.currency,slippageAdjustedAmountOut)
     }
   }
 
@@ -229,7 +230,8 @@ export class Trade {
       const slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient
       return this.inputAmount instanceof TokenAmount
         ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn)
-        : CurrencyAmount.ether(slippageAdjustedAmountIn)
+        // : CurrencyAmount.ether(slippageAdjustedAmountIn)
+        : new CurrencyAmount(this.inputAmount.currency,slippageAdjustedAmountIn)
     }
   }
 

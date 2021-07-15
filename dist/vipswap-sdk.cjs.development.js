@@ -365,6 +365,7 @@ function sortedInsert(items, add, maxSize, comparator) {
   }
 }
 
+var _CurrencyArr;
 /**
  * A currency is any fungible financial instrument on Ethereum, including Ether and all ERC20 tokens.
  *
@@ -394,6 +395,7 @@ Currency.INT = /*#__PURE__*/new Currency(18, 'INT', 'int');
 var ETHER = Currency.ETHER;
 var OKT = Currency.OKT;
 var INT = Currency.INT;
+var CurrencyArr = (_CurrencyArr = {}, _CurrencyArr[exports.ChainId.BSCNET] = ETHER, _CurrencyArr[exports.ChainId.BSCMAINNET] = ETHER, _CurrencyArr[exports.ChainId.OKTTEST] = OKT, _CurrencyArr[exports.ChainId.INTTEST] = INT, _CurrencyArr);
 
 var _WETH;
 /**
@@ -587,6 +589,7 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
   _inheritsLoose(CurrencyAmount, _Fraction);
 
   // amount _must_ be raw, i.e. in the native representation
+  // 此方法为protected
   function CurrencyAmount(currency, amount) {
     var _this;
 
@@ -604,6 +607,19 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
 
   CurrencyAmount.ether = function ether(amount) {
     return new CurrencyAmount(ETHER, amount);
+  };
+
+  CurrencyAmount.etherById = function etherById(amount, chainId) {
+    // return new CurrencyAmount(ETHER, amount)
+    return new CurrencyAmount(CurrencyArr[chainId], amount);
+  };
+
+  CurrencyAmount.etherINT = function etherINT(amount) {
+    return new CurrencyAmount(INT, amount);
+  };
+
+  CurrencyAmount.etherOKT = function etherOKT(amount) {
+    return new CurrencyAmount(OKT, amount);
   };
 
   var _proto = CurrencyAmount.prototype;
@@ -740,9 +756,10 @@ var Price = /*#__PURE__*/function (_Fraction) {
 
     if (this.quoteCurrency instanceof Token) {
       return new TokenAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
-    }
+    } // return CurrencyAmount.ether(super.multiply(currencyAmount.raw).quotient)
 
-    return CurrencyAmount.ether(_Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
+
+    return new CurrencyAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
   };
 
   _proto.toSignificant = function toSignificant(significantDigits, format, rounding) {
@@ -1159,8 +1176,8 @@ var Trade = /*#__PURE__*/function () {
 
     this.route = route;
     this.tradeType = tradeType;
-    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER || route.input === INT || route.input === OKT ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
-    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER || route.output === OKT || route.output === INT ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
+    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER || route.input === INT || route.input === OKT ? CurrencyAmount.etherById(amounts[0].raw, route.chainId) : amounts[0];
+    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER || route.output === OKT || route.output === INT ? CurrencyAmount.etherById(amounts[amounts.length - 1].raw, route.chainId) : amounts[amounts.length - 1];
     this.executionPrice = new Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.raw, this.outputAmount.raw);
     this.nextMidPrice = Price.fromRoute(new Route(nextPairs, route.input));
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
@@ -1200,7 +1217,8 @@ var Trade = /*#__PURE__*/function () {
       return this.outputAmount;
     } else {
       var slippageAdjustedAmountOut = new Fraction(ONE).add(slippageTolerance).invert().multiply(this.outputAmount.raw).quotient;
-      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) : CurrencyAmount.ether(slippageAdjustedAmountOut);
+      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) // : CurrencyAmount.ether(slippageAdjustedAmountOut)
+      : new CurrencyAmount(this.outputAmount.currency, slippageAdjustedAmountOut);
     }
   }
   /**
@@ -1216,7 +1234,8 @@ var Trade = /*#__PURE__*/function () {
       return this.inputAmount;
     } else {
       var slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient;
-      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) : CurrencyAmount.ether(slippageAdjustedAmountIn);
+      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) // : CurrencyAmount.ether(slippageAdjustedAmountIn)
+      : new CurrencyAmount(this.inputAmount.currency, slippageAdjustedAmountIn);
     }
   }
   /**
@@ -1592,6 +1611,7 @@ var Fetcher = /*#__PURE__*/function () {
 exports.JSBI = JSBI;
 exports.Currency = Currency;
 exports.CurrencyAmount = CurrencyAmount;
+exports.CurrencyArr = CurrencyArr;
 exports.ETHER = ETHER;
 exports.FACTORY_ADDRESS = FACTORY_ADDRESS;
 exports.Fetcher = Fetcher;
