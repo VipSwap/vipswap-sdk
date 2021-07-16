@@ -1427,8 +1427,8 @@ var Router = /*#__PURE__*/function () {
 
 
   Router.swapCallParameters = function swapCallParameters(trade, options) {
-    var etherIn = trade.inputAmount.currency === ETHER;
-    var etherOut = trade.outputAmount.currency === ETHER; // the router does not support both ether in and out
+    var etherIn = trade.inputAmount.currency === ETHER || trade.inputAmount.currency === OKT || trade.inputAmount.currency === INT;
+    var etherOut = trade.outputAmount.currency === ETHER || trade.inputAmount.currency === OKT || trade.inputAmount.currency === INT; // the router does not support both ether in and out
 
     !!(etherIn && etherOut) ?  invariant(false, 'ETHER_IN_OUT')  : void 0;
     !(!('ttl' in options) || options.ttl > 0) ?  invariant(false, 'TTL')  : void 0;
