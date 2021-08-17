@@ -9,7 +9,8 @@ export declare enum ChainId {
     BSCNET = 97,
     BSCMAINNET = 56,
     OKTTEST = 65,
-    INTTEST = 2048
+    INTTEST = 2048,
+    INTMAIN = 1024
 }
 export declare enum TradeType {
     EXACT_INPUT = 0,

@@ -43,5 +43,6 @@ const CurrencyArr:{[index:number]:any} = {
   [ChainId.BSCMAINNET]: ETHER,
   [ChainId.OKTTEST]: OKT,
   [ChainId.INTTEST]: INT,
+  [ChainId.INTMAIN]: INT,
 }
 export { ETHER, OKT, INT,CurrencyArr }
