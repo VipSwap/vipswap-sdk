@@ -13,7 +13,7 @@ export enum ChainId {
   BSCMAINNET = 56,
   OKTTEST= 65,
   INTTEST= 2048,
-  INTMAIN= 1024
+  INTMAIN= 2047
 
 }
 
@@ -34,7 +34,7 @@ export const FACTORY_ADDRESS_ARRAY :{[index: number]: string}= {
   56: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
   65: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
   2048: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
-  1024: '0xc70d783b98ad5b5f9a3bbd810da94cf60a4e5acb',
+  2047: '0xc70d783b98ad5b5f9a3bbd810da94cf60a4e5acb',
 }
 
 export const INIT_CODE_HASH = '0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26'
@@ -43,7 +43,7 @@ export const INIT_CODE_HASH_ARRAY :{[index: number]: string} = {
   56:'0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26',
   65:'0x4b6d4707c715407ae64f3bc3e2bb13205da4094929c964a633d5cae158bcee31',
   2048: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
-  1024: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
+  2047: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
 }
 
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000)
