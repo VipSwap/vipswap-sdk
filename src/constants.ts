@@ -34,7 +34,7 @@ export const FACTORY_ADDRESS_ARRAY :{[index: number]: string}= {
   56: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
   65: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
   2048: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
-  2047: '0xc70d783b98ad5b5f9a3bbd810da94cf60a4e5acb',
+  2047: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
 }
 
 export const INIT_CODE_HASH = '0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26'
