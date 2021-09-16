@@ -43,22 +43,23 @@ var Rounding;
   Rounding[Rounding["ROUND_UP"] = 2] = "ROUND_UP";
 })(Rounding || (Rounding = {}));
 
-var FACTORY_ADDRESS = '0xb34019c1f32b77a926f78530fcd601aeab232fe5';
-var FACTORY_ADDRESS_ARRAY = {
-  97: '0xf78e018dc1383c119628066f8546a8cf4c228fd7',
-  56: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
-  65: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
-  2048: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
-  2047: '0xb34019c1f32b77a926f78530fcd601aeab232fe5'
-};
-var INIT_CODE_HASH = '0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26';
-var INIT_CODE_HASH_ARRAY = {
-  97: '0xd1492cae04f23e8e5427c71f7f362b12b7c3daeaf2238212be1721f62b3f62cd',
-  56: '0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26',
-  65: '0x4b6d4707c715407ae64f3bc3e2bb13205da4094929c964a633d5cae158bcee31',
-  2048: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
-  2047: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a'
-};
+var FACTORY_ADDRESS = '0xb34019c1f32b77a926f78530fcd601aeab232fe5'; //
+// export const FACTORY_ADDRESS_ARRAY :{[index: number]: string}= {
+//   97: '0xf78e018dc1383c119628066f8546a8cf4c228fd7',
+//   56: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
+//   65: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
+//   2048: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
+//   2047: '0xb34019c1f32b77a926f78530fcd601aeab232fe5',
+// }
+
+var INIT_CODE_HASH = '0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26'; // export const INIT_CODE_HASH_ARRAY :{[index: number]: string} = {
+//   97:'0xd1492cae04f23e8e5427c71f7f362b12b7c3daeaf2238212be1721f62b3f62cd',
+//   56:'0xa8cb4c9a1390d228f8517ced99d258da89f116f417342723549ee7b5d101bf26',
+//   65:'0x4b6d4707c715407ae64f3bc3e2bb13205da4094929c964a633d5cae158bcee31',
+//   2048: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
+//   2047: '0xc0f2ea4654a406688e6a940730eb9c196c2a4e47b10cc98c115eea16ab4a8e4a',
+// }
+
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -368,7 +369,6 @@ function sortedInsert(items, add, maxSize, comparator) {
   }
 }
 
-var _CurrencyArr;
 /**
  * A currency is any fungible financial instrument on Ethereum, including Ether and all ERC20 tokens.
  *
@@ -393,12 +393,7 @@ function Currency(decimals, symbol, name) {
  */
 
 Currency.ETHER = /*#__PURE__*/new Currency(18, 'BNB', 'Ether');
-Currency.OKT = /*#__PURE__*/new Currency(18, 'OKT', 'okt');
-Currency.INT = /*#__PURE__*/new Currency(18, 'INT', 'int');
 var ETHER = Currency.ETHER;
-var OKT = Currency.OKT;
-var INT = Currency.INT;
-var CurrencyArr = (_CurrencyArr = {}, _CurrencyArr[ChainId.BSCNET] = ETHER, _CurrencyArr[ChainId.BSCMAINNET] = ETHER, _CurrencyArr[ChainId.OKTTEST] = OKT, _CurrencyArr[ChainId.INTTEST] = INT, _CurrencyArr[ChainId.INTMAIN] = INT, _CurrencyArr);
 
 var _WETH;
 /**
@@ -592,7 +587,6 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
   _inheritsLoose(CurrencyAmount, _Fraction);
 
   // amount _must_ be raw, i.e. in the native representation
-  // 此方法为protected
   function CurrencyAmount(currency, amount) {
     var _this;
 
@@ -610,19 +604,6 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
 
   CurrencyAmount.ether = function ether(amount) {
     return new CurrencyAmount(ETHER, amount);
-  };
-
-  CurrencyAmount.etherById = function etherById(amount, chainId) {
-    // return new CurrencyAmount(ETHER, amount)
-    return new CurrencyAmount(CurrencyArr[chainId], amount);
-  };
-
-  CurrencyAmount.etherINT = function etherINT(amount) {
-    return new CurrencyAmount(INT, amount);
-  };
-
-  CurrencyAmount.etherOKT = function etherOKT(amount) {
-    return new CurrencyAmount(OKT, amount);
   };
 
   var _proto = CurrencyAmount.prototype;
@@ -759,10 +740,9 @@ var Price = /*#__PURE__*/function (_Fraction) {
 
     if (this.quoteCurrency instanceof Token) {
       return new TokenAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
-    } // return CurrencyAmount.ether(super.multiply(currencyAmount.raw).quotient)
+    }
 
-
-    return new CurrencyAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
+    return CurrencyAmount.ether(_Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
   };
 
   _proto.toSignificant = function toSignificant(significantDigits, format, rounding) {
@@ -813,7 +793,7 @@ var Pair = /*#__PURE__*/function () {
     if (((_PAIR_ADDRESS_CACHE = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE === void 0 ? void 0 : (_PAIR_ADDRESS_CACHE$t = _PAIR_ADDRESS_CACHE[tokens[0].address]) === null || _PAIR_ADDRESS_CACHE$t === void 0 ? void 0 : _PAIR_ADDRESS_CACHE$t[tokens[1].address]) === undefined) {
       var _PAIR_ADDRESS_CACHE2, _extends2, _extends3;
 
-      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = getCreate2Address(FACTORY_ADDRESS_ARRAY[tokenA.chainId], keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH_ARRAY[tokenA.chainId]), _extends2)), _extends3));
+      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = getCreate2Address(FACTORY_ADDRESS, keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH), _extends2)), _extends3));
     }
 
     return PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -997,8 +977,8 @@ var Route = /*#__PURE__*/function () {
     !pairs.every(function (pair) {
       return pair.chainId === pairs[0].chainId;
     }) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_IDS') : invariant(false) : void 0;
-    !(input instanceof Token && pairs[0].involvesToken(input) || (input === ETHER || input === OKT || input === INT) && pairs[0].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INPUT') : invariant(false) : void 0;
-    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || (output === ETHER || output === OKT || output === INT) && pairs[pairs.length - 1].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'OUTPUT') : invariant(false) : void 0;
+    !(input instanceof Token && pairs[0].involvesToken(input) || input === ETHER && pairs[0].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INPUT') : invariant(false) : void 0;
+    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || output === ETHER && pairs[pairs.length - 1].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'OUTPUT') : invariant(false) : void 0;
     var path = [input instanceof Token ? input : WETH[pairs[0].chainId]];
 
     for (var _iterator = _createForOfIteratorHelperLoose(pairs.entries()), _step; !(_step = _iterator()).done;) {
@@ -1127,13 +1107,13 @@ function tradeComparator(a, b) {
 
 function wrappedAmount(currencyAmount, chainId) {
   if (currencyAmount instanceof TokenAmount) return currencyAmount;
-  if (currencyAmount.currency === ETHER || currencyAmount.currency === OKT || currencyAmount.currency === INT) return new TokenAmount(WETH[chainId], currencyAmount.raw);
+  if (currencyAmount.currency === ETHER) return new TokenAmount(WETH[chainId], currencyAmount.raw);
    process.env.NODE_ENV !== "production" ? invariant(false, 'CURRENCY') : invariant(false) ;
 }
 
 function wrappedCurrency(currency, chainId) {
   if (currency instanceof Token) return currency;
-  if (currency === ETHER || currency === OKT || currency === INT) return WETH[chainId];
+  if (currency === ETHER) return WETH[chainId];
    process.env.NODE_ENV !== "production" ? invariant(false, 'CURRENCY') : invariant(false) ;
 }
 /**
@@ -1179,8 +1159,8 @@ var Trade = /*#__PURE__*/function () {
 
     this.route = route;
     this.tradeType = tradeType;
-    this.inputAmount = tradeType === TradeType.EXACT_INPUT ? amount : route.input === ETHER || route.input === INT || route.input === OKT ? CurrencyAmount.etherById(amounts[0].raw, route.chainId) : amounts[0];
-    this.outputAmount = tradeType === TradeType.EXACT_OUTPUT ? amount : route.output === ETHER || route.output === OKT || route.output === INT ? CurrencyAmount.etherById(amounts[amounts.length - 1].raw, route.chainId) : amounts[amounts.length - 1];
+    this.inputAmount = tradeType === TradeType.EXACT_INPUT ? amount : route.input === ETHER ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
+    this.outputAmount = tradeType === TradeType.EXACT_OUTPUT ? amount : route.output === ETHER ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
     this.executionPrice = new Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.raw, this.outputAmount.raw);
     this.nextMidPrice = Price.fromRoute(new Route(nextPairs, route.input));
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
@@ -1220,8 +1200,7 @@ var Trade = /*#__PURE__*/function () {
       return this.outputAmount;
     } else {
       var slippageAdjustedAmountOut = new Fraction(ONE).add(slippageTolerance).invert().multiply(this.outputAmount.raw).quotient;
-      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) // : CurrencyAmount.ether(slippageAdjustedAmountOut)
-      : new CurrencyAmount(this.outputAmount.currency, slippageAdjustedAmountOut);
+      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) : CurrencyAmount.ether(slippageAdjustedAmountOut);
     }
   }
   /**
@@ -1237,8 +1216,7 @@ var Trade = /*#__PURE__*/function () {
       return this.inputAmount;
     } else {
       var slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient;
-      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) // : CurrencyAmount.ether(slippageAdjustedAmountIn)
-      : new CurrencyAmount(this.inputAmount.currency, slippageAdjustedAmountIn);
+      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) : CurrencyAmount.ether(slippageAdjustedAmountIn);
     }
   }
   /**
@@ -1430,8 +1408,8 @@ var Router = /*#__PURE__*/function () {
 
 
   Router.swapCallParameters = function swapCallParameters(trade, options) {
-    var etherIn = trade.inputAmount.currency === ETHER || trade.inputAmount.currency === OKT || trade.inputAmount.currency === INT;
-    var etherOut = trade.outputAmount.currency === ETHER || trade.outputAmount.currency === OKT || trade.outputAmount.currency === INT; // the router does not support both ether in and out
+    var etherIn = trade.inputAmount.currency === ETHER;
+    var etherOut = trade.outputAmount.currency === ETHER; // the router does not support both ether in and out
 
     !!(etherIn && etherOut) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ETHER_IN_OUT') : invariant(false) : void 0;
     !(!('ttl' in options) || options.ttl > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TTL') : invariant(false) : void 0;
@@ -1611,5 +1589,5 @@ var Fetcher = /*#__PURE__*/function () {
   return Fetcher;
 }();
 
-export { ChainId, Currency, CurrencyAmount, CurrencyArr, ETHER, FACTORY_ADDRESS, Fetcher, Fraction, INIT_CODE_HASH, INT, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, OKT, Pair, Percent, Price, Rounding, Route, Router, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
+export { ChainId, Currency, CurrencyAmount, ETHER, FACTORY_ADDRESS, Fetcher, Fraction, INIT_CODE_HASH, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, Pair, Percent, Price, Rounding, Route, Router, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
 //# sourceMappingURL=vipswap-sdk.esm.js.map

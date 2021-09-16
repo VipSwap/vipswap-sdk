@@ -1,11 +1,11 @@
 import { currencyEquals } from '../token'
-import {Currency, CurrencyArr, ETHER, INT, OKT} from '../currency'
+import { Currency, ETHER } from '../currency'
 import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import _Big from 'big.js'
 import toFormat from 'toformat'
 
-import {BigintIsh, Rounding, TEN, SolidityType} from '../../constants'
+import { BigintIsh, Rounding, TEN, SolidityType } from '../../constants'
 import { parseBigintIsh, validateSolidityTypeInstance } from '../../utils'
 import { Fraction } from './fraction'
 
@@ -21,20 +21,9 @@ export class CurrencyAmount extends Fraction {
   public static ether(amount: BigintIsh): CurrencyAmount {
     return new CurrencyAmount(ETHER, amount)
   }
-  public static etherById(amount: BigintIsh,chainId: number): CurrencyAmount {
-    // return new CurrencyAmount(ETHER, amount)
-    return new CurrencyAmount(CurrencyArr[chainId], amount)
-  }
-  public static etherINT(amount: BigintIsh): CurrencyAmount {
-    return new CurrencyAmount(INT, amount)
-  }
-  public static etherOKT(amount: BigintIsh): CurrencyAmount {
-    return new CurrencyAmount(OKT, amount)
-  }
 
   // amount _must_ be raw, i.e. in the native representation
-  // 此方法为protected
-  public constructor(currency: Currency, amount: BigintIsh) {
+  protected constructor(currency: Currency, amount: BigintIsh) {
     const parsedAmount = parseBigintIsh(amount)
     validateSolidityTypeInstance(parsedAmount, SolidityType.uint256)
 

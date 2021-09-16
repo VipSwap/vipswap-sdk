@@ -11,8 +11,6 @@ export declare class Currency {
      * The only instance of the base class `Currency`.
      */
     static readonly ETHER: Currency;
-    static readonly OKT: Currency;
-    static readonly INT: Currency;
     /**
      * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.ETHER`.
      * @param decimals decimals of the currency
@@ -22,9 +20,4 @@ export declare class Currency {
     protected constructor(decimals: number, symbol?: string, name?: string);
 }
 declare const ETHER: Currency;
-declare const OKT: Currency;
-declare const INT: Currency;
-declare const CurrencyArr: {
-    [index: number]: any;
-};
-export { ETHER, OKT, INT, CurrencyArr };
+export { ETHER };
